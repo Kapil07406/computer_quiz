@@ -1,82 +1,61 @@
-// Sample computer questions
-const questions = [
-  {
-    question: "Which device is known as the brain of the computer?",
-    options: ["CPU", "Mouse", "Monitor", "Keyboard"],
-    answer: 0,
-  },
-  {
-    question: "What does RAM stand for?",
-    options: [
-      "Read Access Memory",
-      "Random Access Memory",
-      "Run Accept Memory",
-      "Read Action Memory",
-    ],
-    answer: 1,
-  },
-  {
-    question: "Which of the following is an output device?",
-    options: ["Keyboard", "Printer", "Mouse", "Scanner"],
-    answer: 1,
-  },
-  {
-    question: "Which key is used to delete characters to the left of the cursor?",
-    options: ["Backspace", "Delete", "Ctrl", "Shift"],
-    answer: 0,
-  },
-  {
-    question: "What is the full form of CPU?",
-    options: [
-      "Central Processing Unit",
-      "Control Processing Unit",
-      "Central Power Unit",
-      "Central Print Unit",
-    ],
-    answer: 0,
-  },
-];
+const startBtn = document.getElementById("startBtn");
+const nextBtn = document.getElementById("nextBtn");
+const restartBtn = document.getElementById("restartBtn");
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const quizEl = document.getElementById("quiz");
+const resultEl = document.getElementById("result");
+const scoreEl = document.getElementById("score");
+const sectionSelect = document.getElementById("section");
 
+let currentQuiz = [];
 let currentQuestion = 0;
 let score = 0;
 
-const questionEl = document.getElementById("question");
-const optionsEl = document.getElementById("options");
-const nextBtn = document.getElementById("next-btn");
-const resultEl = document.getElementById("result");
+startBtn.addEventListener("click", () => {
+  const selectedSection = sectionSelect.value;
+  currentQuiz = quizData[selectedSection];
+  currentQuestion = 0;
+  score = 0;
+  startBtn.classList.add("hidden");
+  sectionSelect.disabled = true;
+  quizEl.classList.remove("hidden");
+  loadQuestion();
+});
 
-function showQuestion() {
-  const q = questions[currentQuestion];
-  questionEl.textContent = `${currentQuestion + 1}. ${q.question}`;
+function loadQuestion() {
+  const data = currentQuiz[currentQuestion];
+  questionEl.textContent = data.question;
   optionsEl.innerHTML = "";
-  q.options.forEach((opt, i) => {
+
+  data.options.forEach(option => {
     const btn = document.createElement("button");
-    btn.textContent = opt;
-    btn.onclick = () => checkAnswer(i);
+    btn.textContent = option;
+    btn.classList.add("option-btn");
+    btn.addEventListener("click", () => checkAnswer(option, data.answer));
     optionsEl.appendChild(btn);
   });
 }
 
-function checkAnswer(selected) {
-  const correct = questions[currentQuestion].answer;
-  const buttons = optionsEl.querySelectorAll("button");
-  buttons.forEach((btn, i) => {
-    btn.disabled = true;
-    if (i === correct) btn.style.backgroundColor = "#28a745";
-    else if (i === selected) btn.style.backgroundColor = "#dc3545";
-  });
+function checkAnswer(selected, correct) {
   if (selected === correct) score++;
-}
-
-nextBtn.onclick = () => {
   currentQuestion++;
-  if (currentQuestion < questions.length) showQuestion();
-  else showResult();
-};
+
+  if (currentQuestion < currentQuiz.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
 
 function showResult() {
-  document.getElementById("quiz-box").style.display = "none";
-  resultEl.textContent = `✅ Your Score: ${score} / ${questions.length}`;
+  quizEl.classList.add("hidden");
+  resultEl.classList.remove("hidden");
+  scoreEl.textContent = `${score} / ${currentQuiz.length}`;
 }
 
-showQuestion();
+restartBtn.addEventListener("click", () => {
+  resultEl.classList.add("hidden");
+  startBtn.classList.remove("hidden");
+  sectionSelect.disabled = false;
+});
