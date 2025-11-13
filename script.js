@@ -1,8 +1,3 @@
-// ✅ Ye lines hata do (kyunki yahan 'selectedCategory' defined nahi hai)
-// let selectedQuestions = quizData[selectedCategory];
-// selectedQuestions = selectedQuestions.sort(() => Math.random() - 0.5);
-// selectedQuestions = selectedQuestions.slice(0, 10);
-
 const startBtn = document.getElementById("startBtn");
 const nextBtn = document.getElementById("nextBtn");
 const restartBtn = document.getElementById("restartBtn");
@@ -20,7 +15,6 @@ let score = 0;
 startBtn.addEventListener("click", () => {
   const selectedSection = sectionSelect.value;
   
-  // ✅ Randomize and limit to 10 questions
   currentQuiz = quizData[selectedSection]
     .sort(() => Math.random() - 0.5) // randomize
     .slice(0, 10); // pick first 10
@@ -72,3 +66,4 @@ restartBtn.addEventListener("click", () => {
   startBtn.classList.remove("hidden");
   sectionSelect.disabled = false;
 });
+
