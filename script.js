@@ -1,3 +1,8 @@
+// ✅ Ye lines hata do (kyunki yahan 'selectedCategory' defined nahi hai)
+// let selectedQuestions = quizData[selectedCategory];
+// selectedQuestions = selectedQuestions.sort(() => Math.random() - 0.5);
+// selectedQuestions = selectedQuestions.slice(0, 10);
+
 const startBtn = document.getElementById("startBtn");
 const nextBtn = document.getElementById("nextBtn");
 const restartBtn = document.getElementById("restartBtn");
@@ -14,7 +19,12 @@ let score = 0;
 
 startBtn.addEventListener("click", () => {
   const selectedSection = sectionSelect.value;
-  currentQuiz = quizData[selectedSection];
+  
+  // ✅ Randomize and limit to 10 questions
+  currentQuiz = quizData[selectedSection]
+    .sort(() => Math.random() - 0.5) // randomize
+    .slice(0, 10); // pick first 10
+  
   currentQuestion = 0;
   score = 0;
   startBtn.classList.add("hidden");
@@ -25,7 +35,7 @@ startBtn.addEventListener("click", () => {
 
 function loadQuestion() {
   const data = currentQuiz[currentQuestion];
-  questionEl.textContent = data.question;
+  questionEl.textContent = `Q${currentQuestion + 1}. ${data.question}`; // ✅ Added numbering
   optionsEl.innerHTML = "";
 
   data.options.forEach(option => {
@@ -41,6 +51,7 @@ function checkAnswer(selected, correct) {
   if (selected === correct) score++;
   currentQuestion++;
 
+  // ✅ Stops after 10 questions automatically
   if (currentQuestion < currentQuiz.length) {
     loadQuestion();
   } else {
@@ -51,7 +62,9 @@ function checkAnswer(selected, correct) {
 function showResult() {
   quizEl.classList.add("hidden");
   resultEl.classList.remove("hidden");
-  scoreEl.textContent = `${score} / ${currentQuiz.length}`;
+  
+  // ✅ Result message update
+  scoreEl.textContent = `You scored ${score} out of ${currentQuiz.length}`;
 }
 
 restartBtn.addEventListener("click", () => {
