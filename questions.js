@@ -852,9 +852,9 @@ javascript: [
     options: ["If an object is an instance of a class", "If a variable exists", "If a loop ended", "If string has value"],
     answer: "If an object is an instance of a class"
   }
-]
+
   
-]
+
 
 
   ],
@@ -1133,6 +1133,7 @@ javascript: [
     }
   ]
 };
+
 
 
 
