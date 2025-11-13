@@ -21,11 +21,6 @@ const quizData = {
       question: "What does HTML stand for?",
       options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language", "High Transfer Markup Language"],
       answer: "Hyper Text Markup Language"
-    },
-    {
-      question: "Which tag is used to insert an image in HTML?",
-      options: ["<image>", "<img>", "<pic>", "<src>"],
-      answer: "<img>"
     }
   ],
 
@@ -872,6 +867,7 @@ javascript: [
     }
   ]
 };
+
 
 
 
